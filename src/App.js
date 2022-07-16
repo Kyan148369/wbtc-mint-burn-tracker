@@ -1,25 +1,17 @@
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
+import { ethers } from 'ethers';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+let provider = new ethers.providers.Web3Provider(window.ethereum)
+let signer
+
+// 1. Connect Metamask with Dapp
+async function connectMetamask() {
+    // MetaMask requires requesting permission to connect users accounts
+    await provider.send("eth_requestAccounts", []);
+
+    signer = await provider.getSigner();
+
+    console.log("Account address s:", await signer.getAddress());
 }
 
-export default App;
